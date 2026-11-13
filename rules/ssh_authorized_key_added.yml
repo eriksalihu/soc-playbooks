@@ -1,0 +1,24 @@
+title: SSH authorized_keys File Created or Changed
+id: b127f1dc-8427-42f1-b0b4-3b5e852e11f7
+status: experimental
+description: Detects the creation or change of an authorized_keys file in a user's .ssh directory on Linux. Adding a public key to this file lets its owner log in as that user without a password, so attackers use it to keep access.
+references:
+    - https://attack.mitre.org/techniques/T1098/004/
+author: Erik Salihu
+date: 2026-11-13
+tags:
+    - attack.persistence
+    - attack.t1098.004
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename|endswith:
+            - '/.ssh/authorized_keys'
+            - '/.ssh/authorized_keys2'
+    condition: selection
+falsepositives:
+    - A user or administrator adding their own key
+    - Configuration management or cloud provisioning tools that deploy keys
+level: medium
