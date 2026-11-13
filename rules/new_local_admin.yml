@@ -1,0 +1,23 @@
+title: Account Added to the Local Administrators Group
+id: 3171ef28-5e0a-461f-9e6f-548ee7a32a65
+status: experimental
+description: Detects a member being added to the built-in local Administrators group on a Windows host (Security event 4732 for the group with SID S-1-5-32-544). Attackers create a local account and make it an administrator to keep access to the machine.
+references:
+    - https://attack.mitre.org/techniques/T1136/001/
+author: Erik Salihu
+date: 2026-11-13
+tags:
+    - attack.persistence
+    - attack.t1136.001
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4732
+        TargetSid: 'S-1-5-32-544'
+    condition: selection
+falsepositives:
+    - IT staff setting up a new workstation or granting a user temporary administrator rights
+    - Software installers that create a local service account with administrator rights
+level: high
