@@ -71,6 +71,12 @@ The reasoning behind each rule, its threshold and its likely false positives is 
 - Add scenarios: suspicious scheduled task, impossible-travel sign-in, malware alert from endpoint protection
 - Add converted example queries for one SIEM
 
+## Related projects
+
+- [log-sentinel](https://github.com/eriksalihu/log-sentinel): finds SSH brute force, password spraying and web attack patterns in Linux auth logs and web access logs
+- [phish-triage](https://github.com/eriksalihu/phish-triage): scores .eml files for phishing risk offline and lists defanged indicators for the ticket
+- [linux-audit](https://github.com/eriksalihu/linux-audit): read-only Bash script that checks basic Linux hardening and prints PASS, WARN or FAIL
+
 ## License
 
 [MIT](LICENSE)
