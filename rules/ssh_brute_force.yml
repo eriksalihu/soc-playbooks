@@ -1,0 +1,48 @@
+title: SSH Brute Force From a Single Source
+id: b886cf2b-afb3-4fda-bc46-c05f27f5ee96
+name: ssh_failed_password
+status: experimental
+description: Matches failed SSH password logins in the sshd log. On its own one event is normal, so the correlation rule below turns it into an alert when one source produces many failures in a short time.
+references:
+    - https://attack.mitre.org/techniques/T1110/
+author: Erik Salihu
+date: 2026-11-13
+tags:
+    - attack.credential-access
+    - attack.t1110
+logsource:
+    product: linux
+    service: sshd
+detection:
+    keywords:
+        - 'Failed password for'
+    condition: keywords
+falsepositives:
+    - A user who has forgotten the password
+    - A script or backup job that keeps retrying with an outdated password
+level: low
+---
+title: Many Failed SSH Logins From One Source in Five Minutes
+id: ea2606d6-beeb-4ea9-b12b-c6ce4b447294
+status: experimental
+description: Raises an alert when one source IP causes ten or more failed SSH password logins within five minutes, which is typical for automated password guessing.
+references:
+    - https://attack.mitre.org/techniques/T1110/
+author: Erik Salihu
+date: 2026-11-13
+tags:
+    - attack.credential-access
+    - attack.t1110
+correlation:
+    type: event_count
+    rules:
+        - ssh_failed_password
+    group-by:
+        - src_ip
+    timespan: 5m
+    condition:
+        gte: 10
+falsepositives:
+    - Many users behind one NAT address mistyping passwords at the same time
+    - An authorised password audit
+level: medium
